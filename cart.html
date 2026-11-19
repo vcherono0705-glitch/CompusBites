@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compus Bites - Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Compus Bites</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html">Checkout</a>
+    </nav>
+</header>
+
+<main>
+    <h2>My Shopping Cart</h2>
+
+    <ul id="cartItems"></ul>
+
+    <h3 id="cartTotal">Total: KSh 0</h3>
+
+    <button onclick="clearCart()">Clear Cart</button>
+
+    <p><a href="products.html">Continue Shopping</a></p>
+    <p><a href="checkout.html">Proceed to Checkout</a></p>
+</main>
+
+<footer>
+    <p>&copy; 2026 Compus Bites</p>
+</footer>
+<script>
+function displayCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let total = 0;
+
+    let cartItems = document.getElementById("cartItems");
+
+    cartItems.innerHTML = "";
+
+    cart.forEach((item, index) => {
+        total += item.price;
+
+        cartItems.innerHTML += `
+            <li>
+                ${item.name} - KSh ${item.price}
+                <button onclick="removeItem(${index})">Remove</button>
+            </li>
+        `;
+    });
+
+    document.getElementById("cartTotal").innerText =
+        "Total: KSh " + total;
+}
+
+function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    displayCart();
+}
+
+function clearCart() {
+    localStorage.removeItem("cart");
+    displayCart();
+}
+
+displayCart();
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compus Bites - Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Compus Bites</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html">Checkout</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Our Food Products</h2>
+
+<input
+    type="text"
+    id="searchInput"
+    placeholder="Search for food..."
+    onkeyup="searchFood()"
+>
+
+<h3>Browse Food Categories</h3>
+
+<div class="categories">
+    <button onclick="filterCategory('all')">All Food</button>
+    <button onclick="filterCategory('burger')">Burgers</button>
+    <button onclick="filterCategory('pizza')">Pizza</button>
+    <button onclick="filterCategory('snack')">Snacks</button>
+</div>
+>
+
+   <div class="food-container">
+
+        <div class="food-card">
+            <img src="images/burger.jpg" alt="Beef Burger">
+            <h3>Beef Burger</h3>
+            <p>KSh 250</p>
+            <button onclick="addToCart('Beef Burger', 250)">Add to Cart</button>
+        </div>
+
+        <div class="food-card">
+            <img src="images/pizza.jpg" alt="Pizza">
+            <h3>Pizza</h3>
+            <p>KSh 400</p>
+            <button onclick="addToCart('Pizza', 400)">Add to Cart</button>
+        </div>
+
+        <div class="food-card">
+            <img src="images/chips.jpg" alt="Chips">
+            <h3>Chips</h3>
+            <p>KSh 150</p>
+            <button onclick="addToCart('Chips', 150)">Add to Cart</button>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Compus Bites</p>
+</footer>
+<script>
+function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+        name: name,
+        price: price
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(name + " added to cart!");
+}
+function searchFood() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+
+    let cards = document.getElementsByClassName("food-card");
+
+    for (let i = 0; i < cards.length; i++) {
+        let foodName = cards[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+
+        if (foodName.includes(input)) {
+            cards[i].style.display = "block";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+}function filterCategory(category) {
+    let cards = document.getElementsByClassName("food-card");
+
+    for (let i = 0; i < cards.length; i++) {
+        let foodName = cards[i]
+            .getElementsByTagName("h3")[0]
+            .innerText.toLowerCase();
+
+        if (category === "all") {
+            cards[i].style.display = "block";
+        } else if (
+            category === "burger" && foodName.includes("burger") ||
+            category === "pizza" && foodName.includes("pizza") ||
+            category === "snack" && foodName.includes("chips")
+        ) {
+            cards[i].style.display = "block";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
+</body>
+</html>
